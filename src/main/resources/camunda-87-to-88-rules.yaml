@@ -1,0 +1,185 @@
+version: 1
+description: "Migration from camunda 8.7 to 8.8"
+rules:
+  - type: move
+    from: postgresql
+    to: webModelerPostgresql
+  - type: move
+    from: zeebe
+    to: orchestration
+  - type: retype
+    path: orchestration.clusterSize
+    to_type: string
+  - type: retype
+    path: orchestration.partitionCount
+    to_type: string
+  - type: retype
+    path: orchestration.replicationFactor
+    to_type: string
+  - type: move
+    from: global.identity.auth.connectors
+    to: connectors.security.authentication.oidc
+  - type: move
+    from: global.identity.auth.zeebe
+    to: orchestration.security.authentication.oidc
+  - type: merge-to-list
+    to: orchestration.security.authentication.oidc.backwardsCompatibleAudiences
+    from: 
+      - global.identity.auth.operate.audience
+      - global.identity.auth.tasklist.audience
+  - type: delete
+    path: global.identity.auth.operate
+  - type: delete
+    path: global.identity.auth.tasklist
+  - type: move
+    from: zeebeGateway.ingress.grpc
+    to: orchestration.ingress.grpc
+  - type: move
+    from: zeebeGateway.service.grpcPort
+    to: orchestration.service.grpcPort
+  - type: move
+    from: zeebeGateway.ingress.grpcPort
+    to: orchestration.ingress.grpcPort
+  - type: move
+    from: zeebeGateway.service.restPort
+    to: orchestration.service.httpPort
+  - type: move
+    from: zeebeGateway.service.internalPort
+    to: orchestration.service.internalPort
+  - type: move
+    from: operate.enabled
+    to: orchestration.profiles.operate
+  - type: move
+    from: tasklist.enabled
+    to: orchestration.profiles.tasklist
+  - type: delete
+    path: operate.contextPath
+  - type: delete
+    path: tasklist.contextPath
+  - type: delete
+    path: tasklist.identity.userAccessRestrictions.enabled
+
+
+  - type: notify
+    path: connectors.env
+    message: "Please check for env vars named OPERATE_CLIENT_SCOPE in connectors.env and move that to connectors.security.authentication.oidc.tokenScope"
+  - type: notify
+    path: operate.configuration
+    message: "Please check for any custom configuration in operate.configuration and move that to orchestration.configuration"
+  - type: notify
+    path: tasklist.configuration
+    message: "Please check for any custom configuration in tasklist.configuration and move that to orchestration.configuration"
+  - type: notify
+    path: zeebeGateway.configuration
+    message: "Please check for any custom configuration in zeebeGateway.configuration and move that to orchestration.configuration"
+
+  - type: notify
+    path: operate.envFrom
+    message: "Please check for any custom envFrom in operate.envFrom and move that to orchestration.envFrom"
+  - type: notify
+    path: tasklist.envFrom
+    message: "Please check for any custom envFrom in tasklist.envFrom and move that to orchestration.envFrom"
+  - type: notify
+    path: zeebeGateway.envFrom
+    message: "Please check for any custom envFrom in zeebeGateway.envFrom and move that to orchestration.envFrom"
+
+  - type: notify
+    path: operate.extraConfiguration
+    message: "Please check for any custom extraConfiguration in operate.extraConfiguration and move that to orchestration.extraConfiguration"
+  - type: notify
+    path: tasklist.extraConfiguration
+    message: "Please check for any custom extraConfiguration in tasklist.extraConfiguration and move that to orchestration.extraConfiguration"
+  - type: notify
+    path: zeebeGateway.extraConfiguration
+    message: "Please check for any custom extraConfiguration in zeebeGateway.extraConfiguration and move that to orchestration.extraConfiguration"
+
+  - type: notify
+    path: operate.initContainers
+    message: "Please check for any custom initContainers in operate.initContainers and move that to orchestration.initContainers"
+  - type: notify
+    path: tasklist.initContainers
+    message: "Please check for any custom initContainers in tasklist.initContainers and move that to orchestration.initContainers"
+  - type: notify
+    path: zeebeGateway.initContainers
+    message: "Please check for any custom initContainers in zeebeGateway.initContainers and move that to orchestration.initContainers"
+
+  - type: notify
+    path: operate.retention
+    message: "adjust orchestration.history.retention"
+  - type: notify
+    path: tasklist.retention
+    message: "adjust orchestration.history.retention"
+
+  - type: notify
+    path: operate.sidecars
+    message: "Please check for any custom sidecars in operate.sidecars and move that to orchestration.sidecars"
+  - type: notify
+    path: tasklist.sidecars
+    message: "Please check for any custom sidecars in tasklist.sidecars and move that to orchestration.sidecars"
+  - type: notify
+    path: zeebeGateway.sidecars
+    message: "Please check for any custom sidecars in zeebeGateway.sidecars and move that to orchestration.sidecars"
+
+  - type: notify
+    path: operate.extraVolumes
+    message: "Please check for any custom extraVolumes in operate.extraVolumes and move that to orchestration.extraVolumes"
+  - type: notify
+    path: tasklist.extraVolumes
+    message: "Please check for any custom extraVolumes in tasklist.extraVolumes and move that to orchestration.extraVolumes"
+  - type: notify
+    path: zeebeGateway.extraVolumes
+    message: "Please check for any custom extraVolumes in zeebeGateway.extraVolumes and move that to orchestration.extraVolumes"
+
+  - type: notify
+    path: operate.extraVolumeMounts
+    message: "Please check for any custom extraVolumeMounts in operate.extraVolumeMounts and move that to orchestration.extraVolumeMounts"
+  - type: notify
+    path: tasklist.extraVolumeMounts
+    message: "Please check for any custom extraVolumeMounts in tasklist.extraVolumeMounts and move that to orchestration.extraVolumeMounts"
+  - type: notify
+    path: zeebeGateway.extraVolumeMounts
+    message: "Please check for any custom extraVolumeMounts in zeebeGateway.extraVolumeMounts and move that to orchestration.extraVolumeMounts"
+
+  - type: delete
+    path: operate
+  - type: delete
+    path: tasklist
+  - type: delete
+    path: zeebeGateway
+
+  - type: set-default
+    path: console.enabled
+    value: true
+    description: "console was enabled by default in v8.7, disabled in v8.8"
+  - type: set-default
+    path: identity.enabled
+    value: true
+    description: "identity was enabled by default in v8.7, disabled in v8.8"
+  - type: set-default
+    path: identityPostgresql.enabled
+    value: true
+    description: "identityPostgresql was enabled by default in v8.7, disabled in v8.8"
+  - type: set-default
+    path: identityKeycloak.enabled
+    value: true
+    description: "identityKeycloak was enabled by default in v8.7, disabled in v8.8"
+  - type: set-default
+    path: optimize.enabled
+    value: true
+    description: "optimize was enabled by default in v8.7, disabled in v8.8"
+  - type: set-default
+    path: webModeler.enabled
+    value: true
+    description: "webModeler was enabled by default in v8.7, disabled in v8.8"
+  - type: set-default
+    path: webModelerPostgresql.enabled
+    value: true
+    description: "webModelerPostgresql was enabled by default in v8.7, disabled in v8.8"
+  - type: set-default
+    path: orchestration.migration.data.enabled
+    value: true
+    description: "migrator script should be enabled"
+  - type: set-default
+    path: orchestration.migration.identity.enabled
+    value: true
+    description: "migrator script should be enabled"

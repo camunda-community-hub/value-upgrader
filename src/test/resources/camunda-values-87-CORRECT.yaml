@@ -1,0 +1,106 @@
+# Web Modeler chart
+# Chart values for the Camunda Platform 8 Helm chart.
+# This file deliberately contains only the values that differ from the defaults.
+# For changes and documentation, use your favorite diff tool to compare it with:
+# https://github.com/camunda/camunda-platform-helm/blob/main/charts/camunda-platform/values.yaml
+
+# kubectl create namespace camunda;helm upgrade --install --namespace camunda camunda camunda/camunda-platform -f camunda-values-87-CORRECT.yaml --skip-crds --version 12.6.1
+
+# kubectl -n camunda port-forward service/camunda-zeebe-gateway 26500:26500
+# kubectl -n camunda port-forward service/camunda-zeebe-gateway 8080:8080
+# kubectl -n camunda port-forward service/camunda-zeebe-gateway 9600:9600
+
+# kubectl -n camunda port-forward service/camunda-identity 8084:80
+# kubectl -n camunda port-forward service/camunda-web-modeler-webapp 8090:80
+
+# kubectl -n camunda port-forward service/camunda-operate 8081:80
+# login: act/act
+
+# kubectl -n camunda port-forward service/camunda-optimize 8085:80
+# kubectl -n camunda port-forward service/camunda-elasticsearch 9200:9200
+# kubectl -n camunda port-forward service/camunda-keycloak 18080:80
+
+
+# helm uninstall camunda -n camunda; kubectl delete -n camunda pvc -l app.kubernetes.io/instance=camunda;kubectl delete namespace camunda
+
+global:
+  identity:
+    auth:
+      enabled: false
+  license:
+    key: >
+      --------------- BEGIN CAMUNDA LICENSE KEY ---------------
+      X6CnHxJCaOyKaL43aM3FD3wMtBzgpbjjTZ0Vpwik/we5tGeqmFjDvmWwR
+      L+iGwmFbHxwXlyzWqAMhYJBsOJHyjtV5Ntxcn4Nqw45Bjo1++t1XMZuhK
+      YDtdygvM7eoaK2BBXs3EoeBCZnKXV1Ccvyr6jcLNA01TrGVVk1UZSQUhY
+      YaejV30A4weCBgojtdy5cawieVmWE/tVsThEKRaP+hyuwPnPbj0qWn/MY
+      d4wGLkSrW85OKpg0vH+KpCu5bKkKPR/+qx2jERp1EE90M8JJD3yZ8L7nA
+      rG9Oj35/4kLss8wzHFyzdp4NBiZ/+LN9B65RyMD+YuTlyyoMu7aV2ZddQ
+      G99pNfB0yBi+QNTlg0W4k5OQ5IuBhCdyRfhfwmxCsI+L1o+q54cOpCmGz
+      EbiVio4Zo72OgzvI2X7MUZnyef2PC86MUTZKWhhKglRRq3Z25lEIcONQv
+      C5TqWlhxYabK3UUXOj5q/LpRDicIV4hN5hs8eaVVNAAWYNv+t/LSNrCPU
+      OIN8K8nOfwpoMzn6ZWSQ3Hbxle5a/LrPMLlVOox1q0e434Iy51ZZcsOem
+      XSNLZuXm3qqtb7aqOyJu8RZ4zTd6/Pc8ed8ziBSfr7GNnSVzwo3HXN1dV
+      1Udeliux57X0x++D4XLgtAKqxExJyuBy2B/ZtqILyDllRbjadVuuEG30=;
+      customer = testaccount_camunda;
+      expiryDate = unlimited;
+      licenseType = production;
+      startDate = 2024-10-11;
+      ---------------  END CAMUNDA LICENSE KEY  ---------------
+
+identity:
+  enabled: false
+  postgresql:
+    enabled: false
+
+identityKeycloak:
+  enabled: false
+
+webModeler:
+  enabled: false
+  restapi:
+    mail:
+      fromAddress: "pierre-yves.monnet@camunda.com"
+
+operate:
+  enabled: true
+
+tasklist:
+  enabled: true
+
+optimize:
+  enabled: true
+
+connectors:
+  enabled: true
+  env:
+    - name: CAMUNDA_CONNECTOR_POLLING_ENABLED
+      value: "false"
+    - name: CAMUNDA_CONNECTOR_WEBHOOK_ENABLED
+      value: "false"
+    - name: OPERATE_CLIENT_ENABLED
+      value: "false"
+
+
+zeebe:
+  clusterSize: 3
+  partitionCount: 6
+  replicationFactor: 3
+  resources:
+    requests:
+    limits:
+
+
+
+zeebe-gateway:
+  replicas: 2
+  env:
+    - name: CAMUNDA_REST_QUERY_ENABLED
+      value: "true"
+
+
+prometheusServiceMonitor:
+  enabled: true
+
+
+
