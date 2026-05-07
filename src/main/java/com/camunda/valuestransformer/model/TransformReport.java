@@ -13,7 +13,7 @@ import java.util.List;
 public class TransformReport {
 
     public enum EntryKind {
-        CHANGE, WARNING, SKIP, ERROR
+        ERROR, WARNING, CHANGE, SKIP
     }
 
     /**

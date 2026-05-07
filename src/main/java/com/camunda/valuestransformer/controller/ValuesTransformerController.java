@@ -11,11 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,13 +33,15 @@ import java.util.stream.Collectors;
 public class ValuesTransformerController {
 
     Logger logger = LoggerFactory.getLogger(ValuesTransformerController.class.getName());
-    @Autowired
-    RuleFactory ruleFactory;
 
+    private final RuleFactory ruleFactory;
     private final TransformEngine engine;
+    private RequestAttributes requestAttributes;
 
-    public ValuesTransformerController(TransformEngine engine) {
+    public ValuesTransformerController(TransformEngine engine,RuleFactory ruleFactor)
+    {
         this.engine = engine;
+        this.ruleFactory = ruleFactor;
     }
 
     /**
@@ -73,7 +77,18 @@ public class ValuesTransformerController {
         if (request.getInputYaml() == null || request.getInputYaml().isBlank()) {
             return ResponseEntity.badRequest().build();
         }
-        String rule = ruleFactory.getRule(RuleFactory.VERSION.V87_88);
+        RuleFactory.VERSION versionToTransform;
+        try {
+            versionToTransform = RuleFactory.VERSION.valueOf(request.getVersion());
+        } catch (Exception e) {
+            logger.error("Can't convert [{}] to VERSION. [{},{}] expected", request.getVersion(),
+                    RuleFactory.VERSION.V87_88.toString(),
+                    RuleFactory.VERSION.V88_89.toString());
+            return ResponseEntity.badRequest().build();
+
+        }
+        String rule = ruleFactory.getRule(versionToTransform);
+
         TransformEngine.EngineResult result = engine.run(
                 rule,
                 request.getInputYaml(),
@@ -98,12 +113,22 @@ public class ValuesTransformerController {
 
     @PostMapping(value = "/migratefile", consumes = {
             MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MigrateResponse> migratefile(@RequestPart("File") List<MultipartFile> uploadedfiles) {
+    public ResponseEntity<MigrateResponse> migratefile(@RequestPart("File") List<MultipartFile> uploadedfiles,
+                                                       @RequestParam(name = "version", required = true) String version) {
 
         logger.info("migratefile start");
         String valuesToTransform = toString(uploadedfiles.get(0));
 
-        String rules = ruleFactory.getRule(RuleFactory.VERSION.V87_88);
+        RuleFactory.VERSION versionToTransform;
+        try {
+            versionToTransform = RuleFactory.VERSION.valueOf(version);
+        } catch (Exception e) {
+            logger.error("Can't convert [{}] to VERSION. [{},{}] expected", version,
+                    RuleFactory.VERSION.V87_88.toString(),
+                    RuleFactory.VERSION.V88_89.toString());
+            return ResponseEntity.badRequest().build();
+        }
+        String rules = ruleFactory.getRule(versionToTransform);
 
         TransformEngine.EngineResult result = engine.run(
                 rules,
@@ -114,7 +139,10 @@ public class ValuesTransformerController {
 
         MigrateResponse response = new MigrateResponse();
         response.setOutputYaml(result.outputYaml());
-        response.setReportEntries(result.report().getEntries());
+        response.setReportEntries(result.report().getEntries()
+                .stream()
+                .sorted(Comparator.comparingInt(e -> e.getKind().ordinal()))
+                .toList());
         response.setSummary(result.report().summary());
         response.setHasErrors(result.report().hasErrors());
 

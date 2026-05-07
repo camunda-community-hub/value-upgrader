@@ -36,4 +36,6 @@ public class MigrateRequest {
      * Equivalent to --dry-run flag.
      */
     private boolean dryRun;
+
+    private String version;
 }

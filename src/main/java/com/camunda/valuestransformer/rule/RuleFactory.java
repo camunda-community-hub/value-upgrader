@@ -11,7 +11,8 @@ import java.nio.charset.StandardCharsets;
 public class RuleFactory {
 
     public enum VERSION {
-        V87_88
+        V87_88,
+        V88_89
     }
     public String getRule(VERSION version) {
         String fileName = resolveFileName(version);
@@ -26,6 +27,7 @@ public class RuleFactory {
     private String resolveFileName(VERSION version) {
         return switch (version) {
             case V87_88 -> "camunda-87-to-88-rules.yaml";
+            case V88_89 -> "camunda-88-to-89-rules.yaml";
         };
     }
 }

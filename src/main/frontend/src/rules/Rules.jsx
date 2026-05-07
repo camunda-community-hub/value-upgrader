@@ -8,7 +8,7 @@
 
 import React from 'react';
 import ControllerPage from "../component/ControllerPage";
-import {Select} from "carbon-components-react";
+import {Button, CodeSnippet, Select} from "carbon-components-react";
 import RestCallService from "../services/RestCallService";
 
 class Rules extends React.Component {
@@ -19,8 +19,10 @@ class Rules extends React.Component {
         this.state = {
             status: "",
             display: {
+                version: "V87_88",
                 loading: false
             },
+            result: "",
             rules: [],
             isOpen: false
         };
@@ -40,63 +42,99 @@ class Rules extends React.Component {
                         <ControllerPage errorMessage={this.state.status} loading={this.state.display.loading}/>
                     </div>
                 </div>
-                <div className="row" style={{width: "100%"}}>>
-                    <Select
-                        value={this.state.display.version}
-                        labelText="Version"
-                        disabled={this.state.display.loading}
-                        onChange={(event) => this.setVersion(event.target.value)}>
-                        <option value="87-to-88">8.7 to 8.8</option>
-                    </Select>
-                    <button>Load rules</button>
+                <div className="row" style={{width: "100%"}}>
+                    <div className="col-md-6">
+                        <Select
+                            value={this.state.display.version}
+                            labelText="Version"
+                            disabled={this.state.display.loading}
+                            onChange={(event) => this.setVersion(event.target.value)}>
+                            <option value="V87_88">8.7 to 8.8</option>
+                            <option value="V88_89">8.8 to 8.9</option>
+                        </Select>
+                    </div>
                 </div>
-                <div className="row" style={{width: "100%"}}>>
-                    <table id="rulesTable" className="table is-hoverable is-fullwidth">
-                        <thead>
-                        <tr>
-                            <th>Runner Name</th>
-                            <th>Type</th>
-                            <th>Type Runner</th>
-                            <th>Class Name</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {this.state.rules ? this.state.rules.map((runner, _index) =>
-                            <tr onClick={() => this.openModal(runner)}>
-                                <td>
-                                    <img style={{width: "30px"}} src={runner.logo} alt="logo runner"/>
-                                    &nbsp;
-                                    {runner.name}</td>
-                                <td>{runner.type}</td>
-                                <td>{runner.typeRunner}</td>
-                                <td>{runner.className}</td>
-                            </tr>
-                        ) : <tr/>}
-                        </tbody>
-                    </table>
+
+                <div className="row" style={{width: "100%", paddingTop: "10px"}}>
+                    <div className="col-md-6">
+                        <Button onClick={() => this.loadRule()}
+                                disabled={this.state.display.loading}>Get rule</Button>
+                    </div>
+                </div>
+
+
+                <div className="row" style={{width: "100%"}}>
+                    <div className="col-md-12">
+                        <h2>Rule</h2>
+                        <span style={{
+                            fontWeight: "bold",
+                            fontSize: "0.8em",
+                            margin: "5px 5px 5px 5px",
+                            display: "block"
+                        }}>
+                        </span>
+                    </div>
+                </div>
+
+
+                <div className="row" style={{width: "100%"}}>
+                    <div className="col-md-12">
+                        <CodeSnippet
+                            type="multi"
+                            feedback="Copied!"
+                            wrapText>
+                            {this.state.result}
+                        </CodeSnippet>
+                    </div>
                 </div>
             </div>
         )
 
     }
 
-
-    refreshList() {
-        console.log("Rules.refreshList http[upgrated/api/runner/list]");
-        this.setState({runners: [], status: ""});
-        var restCallService = RestCallService.getInstance();
-        restCallService.getJson('upgrated/api/runner/list?', this, this.refreshListCallback);
+    setVersion(value) {
+        // console.log("DashBoard.setOrderBy: " + value);
+        this.setDisplayProperty("version", value);
     }
 
-    refreshListCallback(httpPayload) {
-        if (httpPayload.isError()) {
-            this.setState({status: httpPayload.getError()});
-        } else {
-            this.setState({runners: httpPayload.getData()});
+    loadRule(event) {
+        console.log("loadRule version [" + this.state.display.version);
+        let url = '/rule/api/v1/content?version=' + this.state.display.version;
+        console.log("URL: " + url);
 
+        let restCallService = RestCallService.getInstance();
+
+        /* formData.append("File", this.state.files[0]); */
+        this.setDisplayProperty("loading", true);
+
+        restCallService.getJson(url, this, this.loadRuleCallback);
+
+
+        // dispatch(connectorService.uploadJar(event.target.files[0]));
+    }
+
+    loadRuleCallback(httpResponse) {
+        console.log("loadRuleCallback start");
+        this.setDisplayProperty("loading", false);
+
+        if (httpResponse.isError()) {
+            console.log("Rules.loadRuleCallback: error " + httpResponse.getError());
+            this.setState({status: httpResponse.getError()});
+        } else {
+            this.setState({status:"", "result": httpResponse.getData()})
         }
     }
 
+    /**
+     * Set the display property
+     * @param propertyName name of the property
+     * @param propertyValue the value
+     */
+    setDisplayProperty(propertyName, propertyValue) {
+        let displayObject = this.state.display;
+        displayObject[propertyName] = propertyValue;
+        this.setState({display: displayObject});
+    }
 
 }
 

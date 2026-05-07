@@ -39,21 +39,32 @@ class UpgraderValue extends React.Component {
                     <Container>
                         <Nav className="mr-auto">
                             <Navbar.Brand href="#home">
-                                <img src="/img/cherries.png" width="28" height="28" alt="Upgraded Value"/>
-                                Upgrader value
+                                    <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                                        <img src="/img/upgrade.png" width="28" height="28" alt="Upgraded Value"/>
+                                        <a href="https://www.flaticon.com/free-icons/up"
+                                           title="up icons"
+                                           style={{
+                                               fontSize: "8px",
+                                               color: "#6f6f6f",
+                                               textDecoration: "none",
+                                               marginTop: "2px"
+                                           }}>
+                                            Uniconlabs - Flaticon
+                                        </a>
+                                    </div>
                             </Navbar.Brand>
 
                             <Nav.Link
-                                active={this.state.frameContent  === FRAME_NAME.UPGRADER}
+                                active={this.state.frameContent === FRAME_NAME.UPGRADER}
                                 onClick={() => {
-                                this.clickMenu(FRAME_NAME.UPGRADER)
-                            }}>Upgrader</Nav.Link>
+                                    this.clickMenu(FRAME_NAME.UPGRADER)
+                                }}>Upgrader</Nav.Link>
 
                             <Nav.Link
-                                active={this.state.frameContent  === FRAME_NAME.RULES}
+                                active={this.state.frameContent === FRAME_NAME.RULES}
                                 onClick={() => {
-                                this.clickMenu(FRAME_NAME.RULES)
-                            }}>Rules</Nav.Link>
+                                    this.clickMenu(FRAME_NAME.RULES)
+                                }}>Rules</Nav.Link>
 
 
                         </Nav>
