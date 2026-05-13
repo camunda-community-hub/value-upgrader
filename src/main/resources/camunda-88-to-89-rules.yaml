@@ -1,0 +1,12 @@
+version: 1
+description: "Migration from camunda 8.8 to 8.9"
+rules:
+
+  - type: set-default
+    path: orchestration.data.secondaryStorage.type
+    value: elasticsearch
+    description: "Set the default secondaryStorage to elasticSearch - change it to opensearch if needed"
+  - type: set-default
+    path: global.elasticsearch.enabled
+    value: true
+    description: "Set global elasticsearch to true"
