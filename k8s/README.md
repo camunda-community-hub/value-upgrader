@@ -9,7 +9,7 @@ Check the deployment file, and adapt it.
 # Operation
 
 ```shell
-kubectl create -f upgrader-value.yaml
+kubectl create -f value-upgrader.yaml
 ```
 
 Forward the Upgrader value access 
@@ -21,8 +21,15 @@ kubectl port-forward svc/upgrader_value 8080:8080 -n camunda
 # Remove Upgrader
 
 ```shell
-kubectl delete -f upgrader-value.yaml
+kubectl delete -f value-upgrader.yaml
 ```
 
+
+# Docker compose
+
+```shell
+docker compose -f docker-compose-value-upgrader.yaml up -d
+
+```
 
 

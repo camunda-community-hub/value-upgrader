@@ -1,9 +1,9 @@
-package com.camunda.valuestransformer.service;
+package io.camunda.valuestransformer.service;
 
-import com.camunda.valuestransformer.model.ApplyResult;
-import com.camunda.valuestransformer.model.Rule;
-import com.camunda.valuestransformer.model.TargetType;
-import com.camunda.valuestransformer.yaml.YamlNodeService;
+import io.camunda.valuestransformer.model.ApplyResult;
+import io.camunda.valuestransformer.model.Rule;
+import io.camunda.valuestransformer.model.TargetType;
+import io.camunda.valuestransformer.yaml.YamlNodeService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

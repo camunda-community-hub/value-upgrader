@@ -1,4 +1,4 @@
-package com.camunda.valuestransformer.model;
+package io.camunda.valuestransformer.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

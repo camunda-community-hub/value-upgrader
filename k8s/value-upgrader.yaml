@@ -14,9 +14,9 @@ spec:
     spec:
       containers:
         - name: upgrader-value-container
-          image: ghcr.io/camunda-community-hub/upgrader-value:latest
+          image: ghcr.io/camunda-community-hub/value-upgrader:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 8383
 
 ---
 apiVersion: v1
@@ -28,6 +28,6 @@ spec:
     app: upgrader-value
   ports:
     - protocol: TCP
-      port: 9081
-      targetPort: 9081
+      port: 8383
+      targetPort: 8383
   type: ClusterIP

@@ -1,0 +1,17 @@
+services:
+  upgrader-value:
+    image: ghcr.io/camunda-community-hub/value-upgrader:latest
+    container_name: upgrader-value
+    restart: unless-stopped
+    ports:
+      - "8383:8383"
+    volumes:
+      # Mount config or data directories if needed
+      # - ./config:/app/config
+      []
+    networks:
+      - upgrader-network
+
+networks:
+  upgrader-network:
+    driver: bridge

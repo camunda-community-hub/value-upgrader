@@ -1,6 +1,5 @@
-package com.camunda.valuestransformer.model;
+package io.camunda.valuestransformer.model;
 
-import lombok.Data;
 
 /**
  * Request body for the POST /migrate endpoint.
@@ -9,7 +8,7 @@ import lombok.Data;
  * All YAML content is passed as raw strings so the API is stateless
  * and does not depend on the server's filesystem.
  */
-@Data
+
 public class MigrateRequest {
 
     /**
@@ -38,4 +37,44 @@ public class MigrateRequest {
     private boolean dryRun;
 
     private String version;
+
+    public String getRulesYaml() {
+        return rulesYaml;
+    }
+
+    public void setRulesYaml(String rulesYaml) {
+        this.rulesYaml = rulesYaml;
+    }
+
+    public String getInputYaml() {
+        return inputYaml;
+    }
+
+    public void setInputYaml(String inputYaml) {
+        this.inputYaml = inputYaml;
+    }
+
+    public String getOldDefaultsYaml() {
+        return oldDefaultsYaml;
+    }
+
+    public void setOldDefaultsYaml(String oldDefaultsYaml) {
+        this.oldDefaultsYaml = oldDefaultsYaml;
+    }
+
+    public boolean isDryRun() {
+        return dryRun;
+    }
+
+    public void setDryRun(boolean dryRun) {
+        this.dryRun = dryRun;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
 }

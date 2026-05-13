@@ -1,4 +1,4 @@
-package com.camunda.valuestransformer.yaml;
+package io.camunda.valuestransformer.yaml;
 
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.DumperOptions;

@@ -1,12 +1,10 @@
-package com.camunda.valuestransformer.model;
-
-import lombok.Getter;
+package io.camunda.valuestransformer.model;
 
 /**
  * Describes the outcome of applying a single rule.
  * Equivalent to Go's ApplyResult struct in operations.go.
  */
-@Getter
+
 public class ApplyResult {
 
     private final boolean applied;
@@ -41,5 +39,26 @@ public class ApplyResult {
 
     public boolean hasError() {
         return error != null;
+    }
+
+
+    public boolean isApplied() {
+        return applied;
+    }
+
+    public boolean isSkipped() {
+        return skipped;
+    }
+
+    public boolean isNotFound() {
+        return notFound;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public String getDetail() {
+        return detail;
     }
 }

@@ -1,4 +1,4 @@
-package com.camunda.valuestransformer.rule;
+package io.camunda.valuestransformer.rule;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;

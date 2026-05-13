@@ -1,6 +1,10 @@
 package com.camunda.valuestransformer.service;
 
-import com.camunda.valuestransformer.yaml.YamlNodeService;
+import io.camunda.valuestransformer.service.OperationsService;
+import io.camunda.valuestransformer.service.RulesService;
+import io.camunda.valuestransformer.service.TransformEngine;
+import io.camunda.valuestransformer.yaml.YamlNodeService;
+import io.camunda.valuestransformer.model.TransformReport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +47,7 @@ class TransformEngineTest {
         TransformEngine.EngineResult result = engine.run(rules, input, null, false);
 
         assertThat(result.report().hasErrors()).isFalse();
-        assertThat(result.report().countByKind(com.camunda.valuestransformer.model.TransformReport.EntryKind.CHANGE)).isEqualTo(1);
+        assertThat(result.report().countByKind(TransformReport.EntryKind.CHANGE)).isEqualTo(1);
 
         var output = yamlNodeService.parse(result.outputYaml());
         assertThat(yamlNodeService.get(output, "global.image.tag")).isEqualTo("latest");
@@ -69,7 +73,7 @@ class TransformEngineTest {
 
         TransformEngine.EngineResult result = engine.run(rules, input, null, false);
 
-        assertThat(result.report().countByKind(com.camunda.valuestransformer.model.TransformReport.EntryKind.WARNING)).isEqualTo(1);
+        assertThat(result.report().countByKind(TransformReport.EntryKind.WARNING)).isEqualTo(1);
         var output = yamlNodeService.parse(result.outputYaml());
         assertThat(yamlNodeService.get(output, "global.image.tag")).isEqualTo("already-set");
     }
@@ -110,7 +114,7 @@ class TransformEngineTest {
 
         TransformEngine.EngineResult result = engine.run(rules, input, null, false);
 
-        assertThat(result.report().countByKind(com.camunda.valuestransformer.model.TransformReport.EntryKind.SKIP)).isEqualTo(1);
+        assertThat(result.report().countByKind(TransformReport.EntryKind.SKIP)).isEqualTo(1);
     }
 
     // --- retype ---
@@ -130,7 +134,7 @@ class TransformEngineTest {
 
         assertThat(result.report().hasErrors()).isFalse();
         var output = yamlNodeService.parse(result.outputYaml());
-        assertThat(yamlNodeService.get(output, "replicas")).isEqualTo(3L);
+        assertThat( ((Number)yamlNodeService.get(output, "replicas")).longValue()).isEqualTo(3L);
     }
 
     @Test
@@ -187,7 +191,7 @@ class TransformEngineTest {
 
         TransformEngine.EngineResult result = engine.run(rules, input, null, false);
 
-        assertThat(result.report().countByKind(com.camunda.valuestransformer.model.TransformReport.EntryKind.WARNING)).isEqualTo(1);
+        assertThat(result.report().countByKind(TransformReport.EntryKind.WARNING)).isEqualTo(1);
         var output = yamlNodeService.parse(result.outputYaml());
         assertThat(yamlNodeService.get(output, "logLevel")).isEqualTo("WARN");
     }
@@ -207,7 +211,7 @@ class TransformEngineTest {
 
         TransformEngine.EngineResult result = engine.run(rules, input, null, false);
 
-        assertThat(result.report().countByKind(com.camunda.valuestransformer.model.TransformReport.EntryKind.WARNING)).isEqualTo(1);
+        assertThat(result.report().countByKind(TransformReport.EntryKind.WARNING)).isEqualTo(1);
         // notify never modifies the document
         var output = yamlNodeService.parse(result.outputYaml());
         assertThat(yamlNodeService.get(output, "oldKey")).isEqualTo("someValue");
@@ -246,7 +250,7 @@ class TransformEngineTest {
 
         TransformEngine.EngineResult result = engine.run(rules, input, null, false);
 
-        assertThat(result.report().countByKind(com.camunda.valuestransformer.model.TransformReport.EntryKind.WARNING)).isEqualTo(1);
+        assertThat(result.report().countByKind(TransformReport.EntryKind.WARNING)).isEqualTo(1);
         var output = yamlNodeService.parse(result.outputYaml());
         assertThat(yamlNodeService.get(output, "existingKey")).isEqualTo("userValue");
     }
@@ -266,7 +270,7 @@ class TransformEngineTest {
         TransformEngine.EngineResult result = engine.run(rules, input, null, true);
 
         assertThat(result.outputYaml()).isNull();
-        assertThat(result.report().countByKind(com.camunda.valuestransformer.model.TransformReport.EntryKind.CHANGE)).isEqualTo(1);
+        assertThat(result.report().countByKind(TransformReport.EntryKind.CHANGE)).isEqualTo(1);
     }
 
     // --- old defaults fallback ---
@@ -286,7 +290,7 @@ class TransformEngineTest {
         TransformEngine.EngineResult result = engine.run(rules, input, defaults, false);
 
         // Should skip because the value only came from defaults
-        assertThat(result.report().countByKind(com.camunda.valuestransformer.model.TransformReport.EntryKind.SKIP)).isEqualTo(1);
+        assertThat(result.report().countByKind(TransformReport.EntryKind.SKIP)).isEqualTo(1);
     }
 
     // --- invalid rules ---

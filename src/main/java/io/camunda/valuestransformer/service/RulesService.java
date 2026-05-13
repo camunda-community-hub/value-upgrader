@@ -1,9 +1,9 @@
-package com.camunda.valuestransformer.service;
+package io.camunda.valuestransformer.service;
 
-import com.camunda.valuestransformer.model.Rule;
-import com.camunda.valuestransformer.model.RuleType;
-import com.camunda.valuestransformer.model.RulesFile;
-import com.camunda.valuestransformer.model.TargetType;
+import io.camunda.valuestransformer.model.Rule;
+import io.camunda.valuestransformer.model.RuleType;
+import io.camunda.valuestransformer.model.RulesFile;
+import io.camunda.valuestransformer.model.TargetType;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
 

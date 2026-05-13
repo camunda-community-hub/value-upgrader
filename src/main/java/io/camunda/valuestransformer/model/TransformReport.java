@@ -1,6 +1,5 @@
-package com.camunda.valuestransformer.model;
+package io.camunda.valuestransformer.model;
 
-import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
  * Collects all entries produced during a transformation run.
  * Equivalent to Go's report.Report struct and report.go functions.
  */
-@Data
+
 public class TransformReport {
 
     public enum EntryKind {
@@ -20,13 +19,20 @@ public class TransformReport {
      * A single item in the transformation report.
      * Equivalent to Go's report.Entry struct.
      */
-    @Data
     public static class Entry {
         private final EntryKind kind;
         private final String ruleType;
         private final String path;
         private final String description;
         private final String detail;
+
+        public Entry(EntryKind entryKind, String ruleType, String path, String description, String detail) {
+            this.kind = entryKind;
+            this.ruleType = ruleType;
+            this.path = path;
+            this.description = description;
+            this.detail = detail;
+        }
 
         @Override
         public String toString() {
@@ -39,6 +45,26 @@ public class TransformReport {
                 sb.append(" (").append(detail).append(")");
             }
             return sb.toString();
+        }
+
+        public EntryKind getKind() {
+            return kind;
+        }
+
+        public String getRuleType() {
+            return ruleType;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getDetail() {
+            return detail;
         }
     }
 
@@ -114,4 +140,6 @@ public class TransformReport {
             sb.append("\n");
         }
     }
+
+
 }

@@ -1,12 +1,11 @@
-package com.camunda.valuestransformer.controller;
+package io.camunda.valuestransformer.controller;
 
-import com.camunda.valuestransformer.model.MigrateRequest;
-import com.camunda.valuestransformer.model.MigrateResponse;
-import com.camunda.valuestransformer.rule.RuleFactory;
-import com.camunda.valuestransformer.service.TransformEngine;
+import io.camunda.valuestransformer.model.MigrateRequest;
+import io.camunda.valuestransformer.model.MigrateResponse;
+import io.camunda.valuestransformer.rule.RuleFactory;
+import io.camunda.valuestransformer.service.TransformEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

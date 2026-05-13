@@ -1,4 +1,4 @@
-package com.camunda.valuestransformer.controller;
+package io.camunda.valuestransformer.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -14,8 +14,8 @@ for /f "tokens=2 delims=<>" %%a in ("%LINE%") do (
 )
 
 REM ===== Images =====
-set "IMAGE_LOCAL=pierre-yves-monnet/upgrader-value"
-set "IMAGE_REMOTE=ghcr.io/camunda-community-hub/upgrader-value"
+set "IMAGE_LOCAL=pierre-yves-monnet/value-upgrader"
+set "IMAGE_REMOTE=ghcr.io/camunda-community-hub/value-upgrader"
 
 echo Building Docker image version %VERSION%...
 

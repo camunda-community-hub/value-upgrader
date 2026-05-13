@@ -1,4 +1,4 @@
-package com.camunda.valuestransformer;
+package io.camunda.valuestransformer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

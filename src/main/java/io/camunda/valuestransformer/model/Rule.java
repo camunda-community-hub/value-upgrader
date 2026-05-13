@@ -1,6 +1,5 @@
-package com.camunda.valuestransformer.model;
+package io.camunda.valuestransformer.model;
 
-import lombok.Data;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.Map;
  * In Go, `from` could be a scalar or a list (yaml.Node).
  * Here we model it as a List<String> populated by the RulesFile deserializer.
  */
-@Data
+
 public class Rule {
 
     /** Type of transformation. */
@@ -73,5 +72,86 @@ public class Rule {
     public String fromPath() {
         List<String> paths = fromPaths();
         return paths.isEmpty() ? "" : paths.get(0);
+    }
+
+
+    public RuleType getType() {
+        return type;
+    }
+
+    public void setType(RuleType type) {
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<String> getFrom() {
+        return from;
+    }
+
+    public void setFrom(List<String> from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getToType() {
+        return toType;
+    }
+
+    public void setToType(String toType) {
+        this.toType = toType;
+    }
+
+    public Map<String, String> getMapping() {
+        return mapping;
+    }
+
+    public void setMapping(Map<String, String> mapping) {
+        this.mapping = mapping;
+    }
+
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }
