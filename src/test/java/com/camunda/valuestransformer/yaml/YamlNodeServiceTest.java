@@ -1,6 +1,6 @@
 package com.camunda.valuestransformer.yaml;
 
-import io.camunda.valuestransformer.yaml.YamlNodeService;
+import io.camunda.kiwi.upgrader.yaml.YamlNodeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

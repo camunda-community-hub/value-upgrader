@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 import reportWebVitals from './reportWebVitals';
-import UpgraderValue from "./UpgraderValue";
+import KiwiValueAssistant from "./KiwiValueAssistant";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <UpgraderValue/>
+        <KiwiValueAssistant/>
     </React.StrictMode>
 );
 

@@ -86,9 +86,9 @@ class RestCallService {
 
                 console.error("RestCallService.getJson: Uri[" + selfUri + "] catch error:" + error);
                 if (error.response && error.response.status && error.response.status === 401) {
-                    let homeCherry = window.location.href;
-                    console.log("Redirect : to[" + homeCherry + "]");
-                    window.location = homeCherry;
+                    let homeKiwi = window.location.href;
+                    console.log("Redirect : to[" + homeKiwi + "]");
+                    window.location = homeKiwi;
                     return;
                 }
                 if (fctToCallback != null) {
@@ -125,9 +125,9 @@ class RestCallService {
             .catch(error => {
                 console.error("RestCallService.putJson: Uri[" + selfUri + "] catch error:" + error);
                 if (error.response && error.response.status && error.response.status === 401) {
-                    let homeCherry = window.location.href;
-                    console.log("Redirect : to[" + homeCherry + "]");
-                    window.location = homeCherry;
+                    let homeKiwi = window.location.href;
+                    console.log("Redirect : to[" + homeKiwi + "]");
+                    window.location = homeKiwi;
                     return;
                 }
                 if (fctToCallback != null) {
@@ -165,9 +165,9 @@ class RestCallService {
 
                 console.error("RestCallService.postUpload: Uri[" + selfUri + "] catch error:" + error.message);
                 if (error.response && error.response.status && error.response.status === 401) {
-                    let homeCherry = window.location.href;
-                    console.log("Redirect : to[" + homeCherry + "]");
-                    window.location = homeCherry;
+                    let homeKiwi = window.location.href;
+                    console.log("Redirect : to[" + homeKiwi + "]");
+                    window.location = homeKiwi;
                     return;
                 }
                 if (fctToCallback != null) {

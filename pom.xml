@@ -6,9 +6,9 @@
 
 
     <groupId>com.camunda</groupId>
-    <artifactId>value-upgrader</artifactId>
-    <version>1.0.0</version>
-    <name>value-upgrader</name>
+    <artifactId>kiwi-value-assistant</artifactId>
+    <version>2.0.0</version>
+    <name>kiwi-value-assistant</name>
     <description>Transform Helm chart values.yaml between major versions</description>
 
     <parent>
@@ -39,6 +39,22 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.marcnuri.helm-java</groupId>
+            <artifactId>helm-java</artifactId>
+            <version>0.0.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.camunda.feel</groupId>
+            <artifactId>feel-engine</artifactId>
+            <version>1.17.7</version>
+        </dependency>
 
         <!-- Test -->
         <dependency>
@@ -167,9 +183,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>io.camunda.valuestransformer.ValuesTransformerApplication</mainClass>
+                    <mainClass>io.camunda.kiwi.KiwiAppplication</mainClass>
                     <image>
-                        <name>ghcr.io/camunda-community-hub/value-upgrader:latest</name>
+                        <name>ghcr.io/camunda-community-hub/kiwi-value-assistant:latest</name>
                     </image>
                 </configuration>
             </plugin>

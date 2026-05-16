@@ -1,10 +1,10 @@
 package com.camunda.valuestransformer.service;
 
-import io.camunda.valuestransformer.service.OperationsService;
-import io.camunda.valuestransformer.service.RulesService;
-import io.camunda.valuestransformer.service.TransformEngine;
-import io.camunda.valuestransformer.yaml.YamlNodeService;
-import io.camunda.valuestransformer.model.TransformReport;
+import io.camunda.kiwi.upgrader.service.OperationsService;
+import io.camunda.kiwi.upgrader.service.RulesService;
+import io.camunda.kiwi.upgrader.service.TransformEngine;
+import io.camunda.kiwi.upgrader.yaml.YamlNodeService;
+import io.camunda.kiwi.upgrader.model.TransformReport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

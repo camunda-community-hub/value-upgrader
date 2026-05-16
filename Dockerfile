@@ -2,11 +2,11 @@
 FROM eclipse-temurin:23-jre
 
 EXPOSE 8080
-COPY target/value-upgrader-*.jar /value-upgrader.jar
+COPY target/kiwi-value-assistant-*.jar /kiwi-value-assistant.jar
 COPY pom.xml /pom.xml
 
 
 WORKDIR  /
 
 
-ENTRYPOINT ["java","-jar","/value-upgrader.jar"]
+ENTRYPOINT ["java","-jar","/kiwi-value-assistant.jar"]

@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "KiwiValueAssistant",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -35,7 +35,7 @@
     ]
   },
   "proxyComment": "Put the same value in RestCallService.jsx",
-  "proxy": "http://127.0.0.1:8080",
+  "proxy": "http://127.0.0.1:8383",
   "browserslist": {
     "production": [
       ">0.2%",
